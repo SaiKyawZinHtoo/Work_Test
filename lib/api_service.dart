@@ -5,7 +5,7 @@ import 'package:project_test/model/user_model.dart';
 
 class ApiService {
   final String baseUrl = 'http://103.215.194.85:6006';
-  final FlutterSecureStorage _storage = FlutterSecureStorage();
+  final FlutterSecureStorage _storage = const FlutterSecureStorage();
   // Register User Function
   Future<String> registerUser(String username, String password) async {
     try {

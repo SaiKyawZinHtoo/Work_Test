@@ -44,16 +44,16 @@ class _HomeScreenState extends State<HomeScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Confirm Delete", style: TextStyle(color: Colors.red)),
-          content: Text("Are you sure you want to delete this user?"),
+          title: const Text("Confirm Delete", style: TextStyle(color: Colors.red)),
+          content: const Text("Are you sure you want to delete this user?"),
           actions: [
             TextButton(
-              child: Text("Cancel"),
+              child: const Text("Cancel"),
               onPressed: () => Navigator.of(context).pop(),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-              child: Text("Delete"),
+              child: const Text("Delete"),
               onPressed: () {
                 Navigator.of(context).pop();
                 deleteUser(userId);
@@ -72,22 +72,22 @@ class _HomeScreenState extends State<HomeScreen> {
       itemBuilder: (context, index) {
         User user = userList[index];
         return Card(
-          margin: EdgeInsets.symmetric(vertical: 8),
+          margin: const EdgeInsets.symmetric(vertical: 8),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           elevation: 4,
           child: ListTile(
-            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             title: Text(
               user.username,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
             subtitle: Text("User ID: ${user.userId}"),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
-                  icon: Icon(Icons.edit, color: Colors.blueAccent),
+                  icon: const Icon(Icons.edit, color: Colors.blueAccent),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -98,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
                 IconButton(
-                  icon: Icon(Icons.delete, color: Colors.redAccent),
+                  icon: const Icon(Icons.delete, color: Colors.redAccent),
                   onPressed: () => confirmDelete(user.userId),
                 ),
               ],
@@ -113,10 +113,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Admin Dashboard"),
+        title: const Text("Admin Dashboard"),
         actions: [
           IconButton(
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
             onPressed: () {
               Navigator.push(
                 context,
@@ -127,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: userList.isEmpty
-          ? Center(
+          ? const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

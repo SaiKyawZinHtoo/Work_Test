@@ -27,12 +27,12 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: Text('Registration Status'),
+        title: const Text('Registration Status'),
         content: Text(message),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('OK'),
+            child: const Text('OK'),
           ),
         ],
       ),

@@ -106,27 +106,27 @@ class _SyncLocationScreenState extends State<SyncLocationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Sync Location")),
+      appBar: AppBar(title: const Text("Sync Location")),
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (statusMessage != null) ...[
                 Text(statusMessage!,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.blueAccent,
                       fontSize: 16,
                     )),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
               ],
               ElevatedButton(
                 onPressed: isLoading ? null : syncLocationData,
                 child: isLoading
-                    ? CircularProgressIndicator(
+                    ? const CircularProgressIndicator(
                         valueColor: AlwaysStoppedAnimation<Color>(Colors.white))
-                    : Text("Click to Sync Location"),
+                    : const Text("Click to Sync Location"),
               ),
             ],
           ),

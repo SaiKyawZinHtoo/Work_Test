@@ -45,59 +45,59 @@ class HomeScreen extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 14.0),
+                  padding: const EdgeInsets.symmetric(vertical: 14.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                   backgroundColor: Colors.blueAccent,
                 ),
-                icon: Icon(Icons.person_add, color: Colors.white),
+                icon: const Icon(Icons.person_add, color: Colors.white),
                 onPressed: () {
                   Navigator.pushNamed(context, '/user_register');
                 },
-                label: Text(
+                label: const Text(
                   'Register as User',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Container(
               width: double.infinity,
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 14.0),
+                  padding: const EdgeInsets.symmetric(vertical: 14.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                   backgroundColor: Colors.green,
                 ),
-                icon: Icon(Icons.admin_panel_settings, color: Colors.white),
+                icon: const Icon(Icons.admin_panel_settings, color: Colors.white),
                 onPressed: () {
                   Navigator.pushNamed(context, '/admin_register');
                 },
-                label: Text(
+                label: const Text(
                   'Register as Admin',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Container(
               width: double.infinity,
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 14.0),
+                  padding: const EdgeInsets.symmetric(vertical: 14.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                   backgroundColor: Colors.orangeAccent,
                 ),
-                icon: Icon(Icons.login, color: Colors.white),
+                icon: const Icon(Icons.login, color: Colors.white),
                 onPressed: () {
                   Navigator.pushNamed(context, '/login');
                 },
-                label: Text(
+                label: const Text(
                   'Login',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
