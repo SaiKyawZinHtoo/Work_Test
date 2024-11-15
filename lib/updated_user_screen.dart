@@ -12,25 +12,93 @@ class EditUserScreen extends StatefulWidget {
 }
 
 class _EditUserScreenState extends State<EditUserScreen> {
-  // Initialize controllers with initial text value
   late TextEditingController _usernameController;
   late TextEditingController _passwordController;
+  final ApiService apiService = ApiService();
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-
-    // Initialize the controllers in initState
     _usernameController = TextEditingController(text: widget.user.username);
     _passwordController = TextEditingController(text: widget.user.password);
   }
 
   @override
   void dispose() {
-    // Dispose controllers when the widget is disposed to avoid memory leaks
     _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  Future<void> updateUser() async {
+    if (_usernameController.text.isEmpty || _passwordController.text.isEmpty) {
+      // Show an alert if fields are empty
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text("Input Error"),
+          content: Text("Username and password cannot be empty."),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("OK"),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+
+    final updatedUser = User(
+      userId: widget.user.userId,
+      username: _usernameController.text.trim(),
+      password: _passwordController.text.trim(),
+    );
+
+    try {
+      await apiService.editUser(widget.user.userId, updatedUser);
+
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text("Success"),
+          content: Text("User updated successfully."),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context); // Return to the previous screen
+              },
+              child: Text("OK"),
+            ),
+          ],
+        ),
+      );
+    } catch (e) {
+      print("Error: $e");
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text("Update Error"),
+          content: Text("Failed to update user. Please try again."),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("OK"),
+            ),
+          ],
+        ),
+      );
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   @override
@@ -45,35 +113,39 @@ class _EditUserScreenState extends State<EditUserScreen> {
           children: [
             TextField(
               controller: _usernameController,
-              decoration: InputDecoration(labelText: 'Username'),
+              decoration: InputDecoration(
+                labelText: 'Username',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.person),
+              ),
             ),
+            SizedBox(height: 20),
             TextField(
               controller: _passwordController,
               obscureText: true,
-              decoration: InputDecoration(labelText: 'Password'),
+              decoration: InputDecoration(
+                labelText: 'Password',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.lock),
+              ),
             ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                final updatedUser = User(
-                  userId: widget.user.userId, // Keep the existing user ID
-                  username: _usernameController.text,
-                  password: _passwordController.text,
-                );
-
-                try {
-                  ApiService apiService =
-                      ApiService(); // Create an instance of ApiService
-                  await apiService.editUser(widget.user.userId,
-                      updatedUser); // Use instance to call editUser
-                  Navigator.pop(context); // Go back to the previous screen
-                } catch (e) {
-                  // Handle any errors (e.g., show a toast or a dialog)
-                  print('Error: $e');
-                }
-              },
-              child: Text("Update User"),
-            ),
+            SizedBox(height: 30),
+            isLoading
+                ? CircularProgressIndicator()
+                : ElevatedButton(
+                    onPressed: updateUser,
+                    style: ElevatedButton.styleFrom(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: Text(
+                      "Update User",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
           ],
         ),
       ),

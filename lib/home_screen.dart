@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_test/create_user_screen.dart';
 import 'package:project_test/model/user_model.dart';
 import 'package:project_test/updated_user_screen.dart';
-import 'api_service.dart'; // Import your ApiService class
+import 'api_service.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -16,10 +16,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    fetchUsers(); // Fetch users when the screen loads
+    fetchUsers();
   }
 
-  // Fetches the list of users
   Future<void> fetchUsers() async {
     try {
       List<User> users = await apiService.getUsers();
@@ -31,30 +30,29 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  // Deletes a user and refreshes the list
   Future<void> deleteUser(int userId) async {
     try {
       await apiService.deleteUser(userId);
-      fetchUsers(); // Refresh list after deleting
+      fetchUsers();
     } catch (e) {
       print("Error deleting user: $e");
     }
   }
 
-  // Displays a confirmation dialog before deletion
   void confirmDelete(int userId) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Confirm Delete"),
+          title: Text("Confirm Delete", style: TextStyle(color: Colors.red)),
           content: Text("Are you sure you want to delete this user?"),
           actions: [
             TextButton(
               child: Text("Cancel"),
               onPressed: () => Navigator.of(context).pop(),
             ),
-            TextButton(
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
               child: Text("Delete"),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -67,36 +65,44 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Renders the list of users in a ListView
   Widget buildUserList() {
     return ListView.builder(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       itemCount: userList.length,
       itemBuilder: (context, index) {
         User user = userList[index];
-        return ListTile(
-          title: Text(user.username),
-          subtitle: Text("User ID: ${user.userId}"),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                icon: Icon(Icons.edit),
-                onPressed: () {
-                  // Navigate to edit screen (implement this screen separately)
-                  // Pass the user details for editing
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EditUserScreen(user: user),
-                    ),
-                  ).then((_) => fetchUsers());
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () => confirmDelete(user.userId),
-              ),
-            ],
+        return Card(
+          margin: EdgeInsets.symmetric(vertical: 8),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          elevation: 4,
+          child: ListTile(
+            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            title: Text(
+              user.username,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+            subtitle: Text("User ID: ${user.userId}"),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.edit, color: Colors.blueAccent),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditUserScreen(user: user),
+                      ),
+                    ).then((_) => fetchUsers());
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.delete, color: Colors.redAccent),
+                  onPressed: () => confirmDelete(user.userId),
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -112,20 +118,25 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () {
-              // Navigate to the create user screen
-              // After creating a user, refresh the user list
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => CreateUserScreen()),
-              ).then(
-                (_) => fetchUsers(),
-              );
+              ).then((_) => fetchUsers());
             },
           ),
         ],
       ),
       body: userList.isEmpty
-          ? Center(child: CircularProgressIndicator())
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(height: 16),
+                  Text("Loading users..."),
+                ],
+              ),
+            )
           : buildUserList(),
     );
   }

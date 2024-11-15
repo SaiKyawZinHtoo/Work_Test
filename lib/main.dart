@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: '/', // Set initial route
+      initialRoute: '/',
       routes: {
         '/': (context) => HomeScreen(),
         '/user_register': (context) => UserRegisterScreen(),
@@ -33,31 +33,75 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Welcome'),
+        title: const Text('Welcome'),
+        centerTitle: true,
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/user_register');
-              },
-              child: Text('Register as User'),
+            Container(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: 14.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  backgroundColor: Colors.blueAccent,
+                ),
+                icon: Icon(Icons.person_add, color: Colors.white),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/user_register');
+                },
+                label: Text(
+                  'Register as User',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/admin_register');
-              },
-              child: Text('Register as Admin'),
+            Container(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: 14.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  backgroundColor: Colors.green,
+                ),
+                icon: Icon(Icons.admin_panel_settings, color: Colors.white),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/admin_register');
+                },
+                label: Text(
+                  'Register as Admin',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/login');
-              },
-              child: Text('Login'),
+            Container(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: 14.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  backgroundColor: Colors.orangeAccent,
+                ),
+                icon: Icon(Icons.login, color: Colors.white),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/login');
+                },
+                label: Text(
+                  'Login',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
           ],
         ),
